@@ -4,6 +4,9 @@
   console.log($posts)
 
 </script>
+<svelte:head>
+  <title>FM Beauty Clinic</title>
+</svelte:head>
 
 <h1>Instagram Posts</h1>
 

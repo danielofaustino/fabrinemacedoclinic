@@ -1,9 +1,48 @@
-<nav>
-<a href="/">Home</a>
-<a href="/contato">Contato</a>
-<a href="/especialidades">Especialidades</a>
-<a href="/cursos">Cursos</a>
-<a href="/quem-somos">Quem Somos</a>
-<a href="/politica-de-privacidade">Política de Privacidade</a>  
-<a href="/equipe">Equipe</a>
-</nav>
+<script>
+  import MenuButton from "./menuButton.svelte";
+  import WhatsButton from './whatsButton.svelte';
+  let open = false 
+  const links = [
+    {title:'Home',link:'/'},
+    {title:'Contato',link:'/contato'},
+    {title:'Equipe',link:'/equipe'},
+    {title:'Especialidades',link:'/especialidades'},
+    {title:'Cursos',link:'/cursos'},
+    {title:'Quem Somos',link:'/quem-somos'},
+    {title:'Política de Privacidade',link:'/politica-de-privacidade'},
+   
+  ]
+
+  const toggle =()=>{
+    open = !open
+    console.log(open)
+  }
+</script>
+
+
+<div class="shadow-md w-full fixed top-0 left-o">
+  <div class="md:flex items-center justify-between bg-white py-4 md:px-10 px-7">
+    <div class="cursor-pointer flex">
+      <span class="mr-2">
+        <img src="../../static/logo.png" alt="Logotipo" class="h-10">
+      </span>
+        
+    </div>
+    <div on:click={toggle} class="text-3x1 absolute right-8 top-6 cursor-pointer md:hidden">
+      <MenuButton name={open ? 'close':'menu'}/>
+    </div>
+
+
+    <ul class={`md:flex md:items-center md:pb-0 pb-12 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-300 ease-in ${open ? 'top-8 ':'top-[-600px]'}`}>
+      {#each links as link}
+           <li on:click={toggle} class="py-3 px-1 md:ml-8 md:my-0 my-7 border-b-2 border-transparent lg:hover:border-b-slate-400">
+             <a href="{link.link}" class="text-gray-800 hover:text-gray-400 duration-500">{link.title}</a>
+            </li>
+      {/each}
+      <WhatsButton />
+    </ul>
+  </div>
+</div>
+
+
+
