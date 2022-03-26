@@ -2,10 +2,9 @@
   export let post
 </script>
 
-
-<div class="max-w-sm bg-white border-gray-200 shadow-md mb-2">
+<div class="bg-white border-gray-200 shadow-md mb-2 z-0">
   <a href={post.permalink} target="_blank">
-      <img class="rounded-t-lg h-96 w-full object-cover " src={post.media_url} alt={post.id} />
+      <img class="rounded-t-lg h-96 w-full object-cover" src={post.media_url} alt={post.id} />
   </a>
   <div class="p-5">
 
@@ -13,3 +12,5 @@
      
   </div>
 </div>
+
+
