@@ -13,7 +13,7 @@ const fetchInstagramPosts = async () => {
 		return post.media_type == 'IMAGE';
 	});
 
-	posts.set(filteredPosts);
+	posts.set(filteredPosts.slice(0-3));
 };
 
 fetchInstagramPosts();
