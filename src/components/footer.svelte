@@ -6,7 +6,7 @@ import {links} from '../stores/links.mjs'
 <div class="my-14 py-12 px-7">
   <div tabindex="0" aria-label="footer" class="focus:outline-none mx-auto container flex flex-col items-center justify-center">
       <div tabindex="0" aria-label="fabrine macedo beauty clinic logo" role="img">
-        <img src="/static/logo.png" alt="logo" class="h-12">
+        <img src="/logo.png" alt="logo" class="h-12">
       </div>
       <div class="text-black flex flex-col items-center f-f-l pt-3">
           <h1 tabindex="0" class="focus:outline-none font-black">Fabrine Macedo Beauty Clinic</h1>
