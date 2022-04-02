@@ -19,7 +19,7 @@
   <div class="md:flex items-center justify-between bg-white py-4 md:px-10 px-7">
     <div class="cursor-pointer flex">
       <span class="mr-2">
-        <img src="/logo.png" alt="Logotipo" class="w-full object-cover h-12">
+        <img src="/logo.png" alt="Logotipo" class="h-12">
       </span>
         
     </div>
