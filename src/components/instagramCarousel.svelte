@@ -1,6 +1,7 @@
 <script>
-import { posts } from "../stores/instagramStore.mjs";
+import { posts,instagramPostLoading } from "../stores/instagramStore.mjs";
 import PostCard from '../components/postCard.svelte';
+import Spinner from '../components/spinner.svelte';
 import { Splide, SplideSlide } from '@splidejs/svelte-splide';
 import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 
@@ -36,23 +37,26 @@ import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 </script>
 
 
-  {#if $posts}
-  <div class="shadow-md w-full top-0 left-0">
-    <div class="bg-white mx-2 p-2">
-  <Splide options={ options }>
-      {#each $posts as post}
-      <SplideSlide>
-         <PostCard post={post}/>
-      </SplideSlide>
-      {/each}
-    </Splide>
-  </div>
-  </div>
-  {/if}
+
+{#if instagramPostLoading}
+
+<Spinner />
 
 
+{:else if !instagramPostLoading && $posts.length > 0}
+<div class="shadow-md w-full top-0 left-0">
+  <div class="bg-white mx-2 p-2">
+<Splide options={ options }>
+    {#each $posts as post}
+    <SplideSlide>
+       <PostCard post={post}/>
+    </SplideSlide>
+    {/each}
+  </Splide>
+</div>
+</div>   
+{/if}
 
- 
 <style>
 
 

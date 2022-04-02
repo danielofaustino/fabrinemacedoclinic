@@ -2,10 +2,12 @@ const { VITE_INSTAGRAMTOKENBEAUTY } = import.meta.env;
 import { writable } from 'svelte/store';
 
 export const posts = writable([]);
+export let instagramPostLoading = true
 
 const fetchInstagramPosts = async () => {
 
-	try {
+	try {	
+		
 		const res = await fetch(
 			`https://graph.instagram.com/me/media?access+token=${VITE_INSTAGRAMTOKENBEAUTY}&fields=media_url,media_type,caption,permalink&limit=10`
 		);
@@ -23,10 +25,12 @@ const fetchInstagramPosts = async () => {
 				caption: `${post.caption.substr(0,150)} ...`
 			}
 		})
-	
 		posts.set(postsModified);
+		instagramPostLoading = false
+		console.log("lading status",instagramPostLoading)
 	} catch (error) {
 
+		console.log("lading status",instagramPostLoading)
 		console.log(error)
 	}
 	
