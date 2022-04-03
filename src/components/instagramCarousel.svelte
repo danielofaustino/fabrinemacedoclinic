@@ -8,8 +8,8 @@ import '@splidejs/splide/dist/css/themes/splide-default.min.css';
   
   const options = {
     perPage: 4,
-    gap    : 16,
-    height : '36rem',
+    gap    : 14,
+    height : '38rem',
     rewind : true,
     breakpoints: {
     2560: {
@@ -44,8 +44,8 @@ import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 
 
 {:else if !instagramPostLoading && $posts.length > 0}
-<div class="shadow-md w-full top-0 left-0">
-  <div class="bg-white mx-2 p-2">
+<div class="shadow-md w-full top-0 left-0 ">
+  <div class="bg-white mx-2 p-1">
 <Splide options={ options }>
     {#each $posts as post}
     <SplideSlide>
