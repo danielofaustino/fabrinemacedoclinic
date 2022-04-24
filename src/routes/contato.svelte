@@ -12,14 +12,6 @@
 	<title>Contato</title>
 </svelte:head>
 
-<!--
-  This component uses @tailwindcss/forms
-
-  yarn add @tailwindcss/forms
-  npm install @tailwindcss/forms
-
-  plugins: [require('@tailwindcss/forms')]
--->
 
 <section class="relative flex flex-wrap lg:h-screen lg:items-center">
 	<div class="w-full px-4 py-12 lg:w-1/2 sm:px-6 lg:px-8 sm:py-16 lg:py-24">

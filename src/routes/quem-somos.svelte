@@ -34,7 +34,7 @@
 					</p>
 
 					<a
-						class="inline-block px-12 py-3 mt-8 text-sm font-medium text-white bg-indigo-600 border border-indigo-600 rounded active:text-indigo-500 hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring"
+						class="inline-block px-12 py-3 mt-8 text-sm font-medium text-white bg-yellow-600 border border-yellow-600 rounded active:text-yellow-500 hover:bg-transparent hover:text-yellow-600 focus:outline-none focus:ring"
 						href="/contato"
 					>
 						Entre em Contato
@@ -48,5 +48,9 @@
 <style>
 	h1 {
 		color: red;
+	}
+
+	#buttonGolden {
+		color: #c69d4b;
 	}
 </style>

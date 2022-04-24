@@ -1,18 +1,18 @@
 <script>
-	import { posts, instagramPostLoading } from '../stores/instagramStore.mjs';
-	import PostCard from '../components/postCard.svelte';
+	import { equipe, equipeLoading } from '../stores/equipeStore.mjs';
+	import EquipeCard from '../components/equipeCard.svelte';
 	import Spinner from '../components/spinner.svelte';
 	import { Splide, SplideSlide } from '@splidejs/svelte-splide';
 	import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 
-
 	const options = {
-		type:'loop',
-		autoplay: true,
+		type: 'loop',
 		perPage: 4,
 		gap: 14,
 		height: '38rem',
-		rewind: true,
+		autoScroll: {
+			speed: 2
+		},
 		breakpoints: {
 			2560: {
 				perPage: 5
@@ -36,15 +36,15 @@
 	};
 </script>
 
-{#if instagramPostLoading}
+{#if equipeLoading}
 	<Spinner />
-{:else if !instagramPostLoading && $posts.length > 0}
+{:else if !equipeLoading && $equipe.length > 0}
 	<div class="shadow-md w-full top-0 left-0 ">
-		<div class="bg-white mx-2 p-1">
+		<div class="bg-white mx-20 my-10 p-1">
 			<Splide {options}>
-				{#each $posts as post}
+				{#each $equipe as professional}
 					<SplideSlide>
-						<PostCard {post} />
+						<EquipeCard {professional} />
 					</SplideSlide>
 				{/each}
 			</Splide>

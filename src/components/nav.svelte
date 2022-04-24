@@ -30,8 +30,8 @@
 
     <ul class={`md:flex md:items-center md:pb-0 absolute md:static  bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-14 transition-all duration-300 ease-in ${open ? 'top-8 pt-10 pb-40':'top-[-600px]'}`}>
       {#each links as link}
-           <li class="px-0 md:ml-8 md:my-0 my-7 border-b-2 border-transparent lg:hover:border-b-slate-400 md:text-xs">
-             <a href="{link.link}" class="text-gray-800 hover:text-gray-400 duration-500">{link.title}</a>
+           <li class="px-0 md:ml-8 md:my-0 my-7 border-b-2 border-transparent lg:hover:border-b-yellow-600 md:text-xs">
+             <a href="{link.link}" class="text-gray-800 hover:text-gray-500 duration-500">{link.title}</a>
             </li>
       {/each}
       <WhatsButton />
