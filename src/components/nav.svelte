@@ -15,7 +15,7 @@
 </script>
 
 
-<div class="shadow-md w-full fixed top-0 left-0 z-10">
+<div class="shadow-md w-full fixed top-0 left-0 z-20">
   <div class="md:flex items-center justify-between bg-white py-4 md:px-10 px-7">
     <div class="cursor-pointer flex">
       <span class="mr-2">
