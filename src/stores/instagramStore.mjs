@@ -1,4 +1,4 @@
-const { VITE_INSTAGRAMTOKENBEAUTY } = import.meta.env;
+const { VITE_INSTAGRAMTOKENCLINIC } = import.meta.env;
 import { writable } from 'svelte/store';
 
 export const posts = writable([]);
@@ -9,7 +9,7 @@ const fetchInstagramPosts = async () => {
 	try {	
 		
 		const res = await fetch(
-			`https://graph.instagram.com/me/media?access+token=${VITE_INSTAGRAMTOKENBEAUTY}&fields=media_url,media_type,caption,permalink&limit=10`
+			`https://graph.instagram.com/me/media?access+token=${VITE_INSTAGRAMTOKENCLINIC}&fields=media_url,media_type,caption,permalink&limit=10`
 		);
 		const data = await res.json();
 	

@@ -1,9 +1,11 @@
 <script>
 	export let professional;
+	export let page;
+	let link = page ? `especialidades/${professional.especialidade}` : professional.especialidade;
 </script>
 
 <div class="bg-white border-gray-200 shadow-md z-0 min-h-0">
-	<a href={`especialidades/${professional.especialidade}`}>
+	<a href={link}>
 		<img
 			class="rounded-t-lg h-96 w-full object-cover"
 			src={professional.foto}

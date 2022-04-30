@@ -5,6 +5,8 @@
 	import { Splide, SplideSlide } from '@splidejs/svelte-splide';
 	import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 
+	let page = 'equipeCarousel';
+
 	const options = {
 		type: 'loop',
 		perPage: 4,
@@ -44,7 +46,7 @@
 			<Splide {options}>
 				{#each $equipe as professional}
 					<SplideSlide>
-						<EquipeCard {professional} />
+						<EquipeCard {professional} {page} />
 					</SplideSlide>
 				{/each}
 			</Splide>

@@ -1,67 +1,29 @@
 <script context="module">
 	import { equipeData } from '../../stores/equipe.mjs';
+	import EquipeCard from '../../components/equipeCard.svelte';
+	import Navegador from '../../components/navegador.svelte';
 
 	export async function load({ params }) {
-		let result = equipeData.filter((professional) => professional.especialidade == params.slug);
+		let result = equipeData.filter((prof) => prof.especialidade == params.slug);
 
 		return {
 			status: 200,
 			props: {
-				especialidade: result[0]
+				professional: result[0]
 			}
 		};
 	}
 </script>
 
 <script>
-	export let especialidade;
+	export let professional;
 </script>
 
 <svelte:head>
 	<title>Especialidades</title>
 </svelte:head>
 
-<nav class="flex text-center" aria-label="Breadcrumb">
-	<ol role="list" class="flex overflow-hidden text-gray-700 border border-gray-200 rounded-lg">
-		<li class="flex items-center">
-			<a
-				class="flex items-center h-10 px-4 transition-colors bg-gray-100 hover:text-gray-900"
-				href="/equipe"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					class="w-4 h-4"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="currentColor"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-					/>
-				</svg>
-
-				<span class="ml-1.5 font-medium text-xs"> Equipe </span>
-			</a>
-		</li>
-
-		<li class="relative flex items-center">
-			<span class="absolute inset-y-0 w-4 h-10 bg-gray-100 -left-px clip" />
-
-			<a
-				class="flex items-center h-10 pl-8 pr-4 text-xs font-medium transition-colors bg-white hover:text-gray-900"
-				href="/collections/shirts"
-			>
-				{especialidade.especialidade}
-			</a>
-		</li>
-	</ol>
-</nav>
-<h1>{especialidade.especialidade}</h1>
-
-<ul class="md:flex md:items-center md:pb-0 absolute md:static">
+<!-- <ul class="md:flex md:items-center md:pb-0 absolute md:static">
 	{#each especialidade.procedimentos as procedimento}
 		<li
 			class="px-0 md:ml-8 md:my-0 my-7 border-b-2 border-transparent lg:hover:border-b-yellow-600 md:text-xs"
@@ -71,11 +33,107 @@
 			>
 		</li>
 	{/each}
-</ul>
-<p />
+</ul>  -->
+<Navegador {professional} />
+<h1 class="text-3xl font-extrabold sm:text-5xl text-center pt-6">
+	{professional.especialidade}
+	<strong class="font-extrabold sm:block" id="textGolden">{professional.nome} </strong>
+</h1>
+<section class="relative flex flex-wrap lg:h-screen lg:items-center">
+	<div class="w-full px-4 py-12 lg:w-1/2 sm:px-6 lg:px-8 sm:py-16">
+		<div class="max-w-lg mx-auto text-center">
+			<EquipeCard {professional} />
+		</div>
+	</div>
+
+	<div class="w-full px-4 py-12 lg:w-1/2 sm:px-6 lg:px-8 sm:py-16 lg:py-24">
+		<div class="max-w-lg mx-auto text-center">
+			<div class="shadow-md">
+				{#each professional.procedimentos as procedimento}
+					<div class="tab w-full overflow-hidden border-t">
+						<input class="absolute opacity-0 " id={procedimento.nome} type="checkbox" name="tabs" />
+
+						<label class="block p-5 leading-normal cursor-pointer" for={procedimento.nome}
+							>{procedimento.nome}</label
+						>
+						<div
+							class="tab-content overflow-hidden border-l-2 bg-gray-100 border-yellow-600 leading-normal"
+						>
+							<p class="p-5">
+								{procedimento.description}
+							</p>
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+	</div>
+</section>
 
 <style>
-	.clip {
-		clip-path: polygon(0 0, 0% 100%, 100% 50%);
+	/* Tab content - closed */
+	.tab-content {
+		max-height: 0;
+		-webkit-transition: max-height 0.35s;
+		-o-transition: max-height 0.35s;
+		transition: max-height 0.35s;
+	}
+	/* :checked - resize to full height */
+	.tab input:checked ~ .tab-content {
+		max-height: 100vh;
+	}
+	/* Label formatting when open */
+	.tab input:checked + label {
+		/*@apply text-xl p-5 border-l-2 border-indigo-500 bg-gray-100 text-indigo*/
+		font-size: 1.25rem; /*.text-xl*/
+		padding: 1.25rem; /*.p-5*/
+		border-left-width: 2px; /*.border-l-2*/
+		border-color: #c69d4b; /*.border-indigo*/
+		background-color: #f8fafc; /*.bg-gray-100 */
+		color: #c69d4b; /*.text-indigo*/
+	}
+	/* Icon */
+	.tab label::after {
+		float: right;
+		right: 0;
+		top: 0;
+		display: block;
+		width: 1.5em;
+		height: 1.5em;
+		line-height: 1.5;
+		font-size: 1.25rem;
+		text-align: center;
+		-webkit-transition: all 0.35s;
+		-o-transition: all 0.35s;
+		transition: all 0.35s;
+	}
+	/* Icon formatting - closed */
+	.tab input[type='checkbox'] + label::after {
+		content: '+';
+		font-weight: bold; /*.font-bold*/
+		border-width: 1px; /*.border*/
+		border-radius: 9999px; /*.rounded-full */
+		border-color: #b8c2cc; /*.border-grey*/
+	}
+	.tab input[type='radio'] + label::after {
+		content: '\25BE';
+		font-weight: bold; /*.font-bold*/
+		border-width: 1px; /*.border*/
+		border-radius: 9999px; /*.rounded-full */
+		border-color: #b8c2cc; /*.border-grey*/
+	}
+	/* Icon formatting - open */
+	.tab input[type='checkbox']:checked + label::after {
+		transform: rotate(315deg);
+		background-color: #c69d4b; /*.bg-indigo*/
+		color: #f8fafc; /*.text-grey-lightest*/
+	}
+	.tab input[type='radio']:checked + label::after {
+		transform: rotateX(180deg);
+		background-color: #c69d4b; /*.bg-indigo*/
+		color: #f8fafc; /*.text-grey-lightest*/
+	}
+	#textGolden {
+		color: #c69d4b;
 	}
 </style>
