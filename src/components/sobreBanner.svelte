@@ -13,8 +13,8 @@
 		<div class="max-w-xl text-center sm:text-left">
 			<a href="/quem-somos"
 				><h1 class="text-3xl font-extrabold sm:text-4xl">
-					Fabrine Macedo
-					<strong class="font-extrabold sm:block" id="textGolden"> Beauty Clinic </strong>
+					Clínica
+					<strong class="font-extrabold sm:block" id="textGolden"> F.Care </strong>
 				</h1>
 			</a>
 			<p class="max-w-lg mt-4 sm:leading-relaxed sm:text-xl">

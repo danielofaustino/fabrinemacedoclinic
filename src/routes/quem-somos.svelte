@@ -22,7 +22,7 @@
 				<span class="hidden lg:inset-y-0 lg:absolute lg:w-16 lg:bg-gray-100 lg:block lg:-left-16" />
 
 				<div class="p-8 sm:p-16 lg:p-24">
-					<h2 class="text-2xl font-bold sm:text-3xl">Fabrine Macedo Beauty Clinic</h2>
+					<h2 class="text-2xl font-bold sm:text-3xl">Clínica F.Care</h2>
 
 					<p class="mt-4 text-gray-600">
 						Com foco em Embelezamento do Olhar em seus procedimentos e consolidando o conceito de

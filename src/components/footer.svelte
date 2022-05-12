@@ -44,7 +44,7 @@
 		<div class="flex gap-16 m-4 p-2">
 			<!-- Instagram Icon -->
 			<div class="w-7">
-				<a href="https://www.instagram.com/fabrinemacedo.clinic" target="__blank" alt="Google Maps">
+				<a href="https://www.instagram.com/clinicafcare" target="__blank" alt="Google Maps">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						xmlns:xlink="http://www.w3.org/1999/xlink"
