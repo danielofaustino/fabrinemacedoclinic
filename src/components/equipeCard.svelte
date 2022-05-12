@@ -7,7 +7,7 @@
 <div class="bg-white border-gray-200 shadow-md z-0 min-h-0">
 	<a href={link}>
 		<img
-			class="rounded-t-lg h-96 w-full object-cover"
+			class="rounded-t-lg h-[350px] sm:h-[350px] w-full object-cover"
 			src={professional.foto}
 			alt={professional.id}
 		/>

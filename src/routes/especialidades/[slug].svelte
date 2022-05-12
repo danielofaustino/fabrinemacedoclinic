@@ -20,20 +20,16 @@
 </script>
 
 <svelte:head>
-	<title>Especialidades</title>
+	<title>{`${professional.especialidade} - ${professional.nome}`}</title>
+	<!-- <meta name="description" content={professional.description} />
+	<meta name="robots" content="index, follow" />
+	<meta name="googlebot" content={professional.tags} />
+	<link
+		rel="canonical"
+		href={`https://www.clinicafcare.com.br/especialidades/${professional.especialidade}`}
+	/> -->
 </svelte:head>
 
-<!-- <ul class="md:flex md:items-center md:pb-0 absolute md:static">
-	{#each especialidade.procedimentos as procedimento}
-		<li
-			class="px-0 md:ml-8 md:my-0 my-7 border-b-2 border-transparent lg:hover:border-b-yellow-600 md:text-xs"
-		>
-			<a href={procedimento} class="text-gray-800 text-lg hover:text-gray-500 duration-500"
-				>{procedimento}</a
-			>
-		</li>
-	{/each}
-</ul>  -->
 <Navegador {professional} />
 <h1 class="text-3xl font-extrabold sm:text-5xl text-center pt-6">
 	{professional.especialidade}
@@ -42,7 +38,7 @@
 <section class="relative flex flex-wrap lg:h-screen lg:items-center">
 	<div class="w-full px-4 py-12 lg:w-1/2 sm:px-6 lg:px-8 sm:py-16">
 		<div class="max-w-lg mx-auto text-center">
-			<EquipeCard {professional} />
+			<EquipeCard page={false} {professional} />
 		</div>
 	</div>
 
@@ -51,17 +47,14 @@
 			<div class="shadow-md">
 				{#each professional.procedimentos as procedimento}
 					<div class="tab w-full overflow-hidden border-t">
-						<input class="absolute opacity-0 " id={procedimento.nome} type="checkbox" name="tabs" />
-
+						<input class="absolute opacity-0" id={procedimento.nome} type="radio" name="tabs2" />
 						<label class="block p-5 leading-normal cursor-pointer" for={procedimento.nome}
 							>{procedimento.nome}</label
 						>
 						<div
-							class="tab-content overflow-hidden border-l-2 bg-gray-100 border-yellow-600 leading-normal"
+							class="tab-content overflow-hidden border-l-2 bg-gray-100 border-yellow-600  leading-normal"
 						>
-							<p class="p-5">
-								{procedimento.description}
-							</p>
+							<p class="p-5">{procedimento.description}</p>
 						</div>
 					</div>
 				{/each}

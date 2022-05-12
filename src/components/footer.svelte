@@ -9,10 +9,10 @@
 		class="focus:outline-none mx-auto container flex flex-col items-center justify-center"
 	>
 		<div tabindex="0" aria-label="fabrine macedo beauty clinic logo" role="img">
-			<img src="/logo.png" alt="logo" class="h-12" />
+			<img src="/logo.svg" alt="logo" class="h-12" />
 		</div>
 		<div class="text-black flex flex-col items-center f-f-l pt-3">
-			<h1 tabindex="0" class="focus:outline-none font-black">Fabrine Macedo Beauty Clinic</h1>
+			<h1 tabindex="0" class="focus:outline-none font-black">Clínica F.Care</h1>
 			<div class="my-6 text-base text-color f-f-l">
 				<ul class="md:flex md:items-center">
 					{#each links as link}
