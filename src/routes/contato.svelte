@@ -1,5 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { equipeData } from '../stores/equipe.mjs';
 	let nome, procedimento;
 
 	const sendToWhatsApp = () => {
@@ -11,7 +12,6 @@
 <svelte:head>
 	<title>Contato</title>
 </svelte:head>
-
 
 <section class="relative flex flex-wrap lg:h-screen lg:items-center">
 	<div class="w-full px-4 py-12 lg:w-1/2 sm:px-6 lg:px-8 sm:py-16 lg:py-24">
@@ -45,9 +45,11 @@
 						class="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
 						bind:value={procedimento}
 					>
-						<option>Micropigmentação</option>
-						<option>Cílios</option>
-						<option>Botox</option>
+						{#each equipeData as equipeProcedimento}
+							<option value={equipeProcedimento.especialidade}
+								>{equipeProcedimento.especialidade}</option
+							>
+						{/each}
 					</select>
 				</div>
 			</div>
@@ -74,9 +76,10 @@
 			height="100%"
 			frameborder="0"
 			style="border:0;"
-			allowfullscreen=""
+			allowfullscreen={true}
 			aria-hidden="false"
 			tabindex="0"
+			title="Google Maps"
 			class="absolute inset-0 object-cover w-full h-full"
 		/>
 	</div>
