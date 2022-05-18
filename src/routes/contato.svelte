@@ -4,7 +4,7 @@
 	let nome, procedimento;
 
 	const sendToWhatsApp = () => {
-		let whatsAppLink = `https://wa.me/5511970433870?text=Atendimento personalizado para: ${nome} - Procedimento: ${procedimento}`;
+		let whatsAppLink = `https://wa.me/5511970619477?text=Atendimento personalizado para: ${nome} - Procedimento: ${procedimento}`;
 		goto(whatsAppLink);
 	};
 </script>

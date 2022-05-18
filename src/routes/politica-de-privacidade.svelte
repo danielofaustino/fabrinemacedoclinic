@@ -73,7 +73,7 @@
 	atualizadas ou modificadas a qualquer momento, cabendo ao Usuário verificá-la sempre que efetuar o
 	acesso ao site. O Usuário deverá entrar em contato em caso de qualquer dúvida com relação às
 	disposições constantes desta Política de Privacidade e Uso, elegendo um destes meios de contato:
-	telefone 97043-3870 ou formulário de contato.
+	telefone +551197061-9477 ou formulário de contato.
 </p>
 
 </div>

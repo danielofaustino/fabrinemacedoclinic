@@ -1,7 +1,5 @@
 <script context="module">
 	import { equipeData } from '../../stores/equipe.mjs';
-	import EquipeCard from '../../components/equipeCard.svelte';
-	import Navegador from '../../components/navegador.svelte';
 
 	export async function load({ params }) {
 		let result = equipeData.filter((prof) => prof.especialidade == params.slug);
@@ -16,6 +14,9 @@
 </script>
 
 <script>
+	import WhatsButton from '../../components/whatsButton.svelte';
+	import EquipeCard from '../../components/equipeCard.svelte';
+	import Navegador from '../../components/navegador.svelte';
 	export let professional;
 </script>
 
@@ -55,6 +56,9 @@
 							class="tab-content overflow-hidden border-l-2 bg-gray-100 border-yellow-600  leading-normal"
 						>
 							<p class="p-5">{procedimento.description}</p>
+							<div class="pb-4">
+								<WhatsButton procedimento={procedimento.nome} />
+							</div>
 						</div>
 					</div>
 				{/each}

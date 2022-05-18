@@ -91,7 +91,7 @@
 			</div>
 			<!-- WhatsApp Icon -->
 			<div class="w-7">
-				<a href="https://wa.me/5511970433870" target="__blank" alt="Whats App">
+				<a href="https://wa.me/5511970619477" target="__blank" alt="Whats App">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						xmlns:xlink="http://www.w3.org/1999/xlink"
