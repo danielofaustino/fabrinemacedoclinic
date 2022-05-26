@@ -1,17 +1,12 @@
 <script>
-
-
+	import CursoCarousel from '../components/cursoCarousel.svelte';
 </script>
-<svelte:head>
-  <title>Cursos</title>
-</svelte:head>
-<h1>Cursos</h1>
-<p></p>
 
+<svelte:head>
+	<title>Cursos</title>
+</svelte:head>
+
+<CursoCarousel />
 
 <style>
-
-  h1{
-    color:red
-  }
 </style>
