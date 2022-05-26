@@ -20,7 +20,7 @@
     type: 'website',
     images: [
       {
-        url: 'about.jpg',
+        url: 'https://www.clinicafcare.com.br/about.jpg',
         width: 850,
         height: 650,
         alt: 'Clínica F.Care'
