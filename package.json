@@ -26,6 +26,7 @@
   "type": "module",
   "dependencies": {
     "@splidejs/splide-extension-auto-scroll": "splidejs/svelte-splide",
-    "@splidejs/svelte-splide": "^0.1.18"
+    "@splidejs/svelte-splide": "^0.1.18",
+    "svelte-seo": "^1.4.0"
   }
 }
