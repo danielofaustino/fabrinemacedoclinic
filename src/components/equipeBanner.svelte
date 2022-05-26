@@ -1,7 +1,7 @@
 <section class="relative bg-white">
 	<img
 		class="absolute inset-0 object-[75%] sm:object-[25%] object-cover w-full h-full opacity-25 sm:opacity-100"
-		src="equipe/equipe.JPG"
+		src="equipe/equipe.webp"
 		alt="Nossa Equipe"
 	/>
 
