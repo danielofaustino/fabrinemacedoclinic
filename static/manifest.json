@@ -4,8 +4,8 @@
   "start_url": "/",
   "icons": [
     {
-      "src": "logo.svg",
-      "type": "image/svg",
+      "src": "logo_fcare.png",
+      "type": "image/png",
       "sizes": "512x512"
     }
   ],
@@ -21,7 +21,7 @@
       "url": "/equipe?source=pwa",
       "icons": [
         {
-          "src": "logo.svg",
+          "src": "logo_fcare.png",
           "sizes": "192x192"
         }
       ]
@@ -33,7 +33,7 @@
       "url": "/cursos?source=pwa",
       "icons": [
         {
-          "src": "logo.svg",
+          "src": "logo_fcare.png",
           "sizes": "192x192"
         }
       ]
