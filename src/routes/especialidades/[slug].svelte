@@ -18,6 +18,8 @@
 	import EquipeCard from '../../components/equipeCard.svelte';
 	import Navegador from '../../components/navegador.svelte';
 	export let professional;
+
+	let keywords = professional.procedimentos.map((procedimento) => procedimento.nome).toString();
 </script>
 
 <svelte:head>
@@ -25,10 +27,12 @@
 	<!-- <meta name="description" content={professional.description} />
 	<meta name="robots" content="index, follow" />
 	<meta name="googlebot" content={professional.tags} />
+	
 	<link
 		rel="canonical"
 		href={`https://www.clinicafcare.com.br/especialidades/${professional.especialidade}`}
 	/> -->
+	<meta name="keywords" content={keywords} />
 </svelte:head>
 
 <Navegador {professional} />
