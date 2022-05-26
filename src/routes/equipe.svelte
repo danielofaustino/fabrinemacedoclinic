@@ -10,7 +10,5 @@
 <EquipeCarousel />
 
 <style>
-	#textGolden {
-		color: #c69d4b;
-	}
+
 </style>

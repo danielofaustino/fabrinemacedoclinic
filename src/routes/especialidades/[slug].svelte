@@ -109,13 +109,7 @@
 		transition: all 0.35s;
 	}
 	/* Icon formatting - closed */
-	.tab input[type='checkbox'] + label::after {
-		content: '+';
-		font-weight: bold; /*.font-bold*/
-		border-width: 1px; /*.border*/
-		border-radius: 9999px; /*.rounded-full */
-		border-color: #b8c2cc; /*.border-grey*/
-	}
+
 	.tab input[type='radio'] + label::after {
 		content: '\25BE';
 		font-weight: bold; /*.font-bold*/
@@ -123,12 +117,7 @@
 		border-radius: 9999px; /*.rounded-full */
 		border-color: #b8c2cc; /*.border-grey*/
 	}
-	/* Icon formatting - open */
-	.tab input[type='checkbox']:checked + label::after {
-		transform: rotate(315deg);
-		background-color: #c69d4b; /*.bg-indigo*/
-		color: #f8fafc; /*.text-grey-lightest*/
-	}
+
 	.tab input[type='radio']:checked + label::after {
 		transform: rotateX(180deg);
 		background-color: #c69d4b; /*.bg-indigo*/

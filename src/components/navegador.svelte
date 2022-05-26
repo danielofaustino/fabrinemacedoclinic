@@ -3,7 +3,7 @@
 </script>
 
 <nav class="flex text-center px-10 pt-16" aria-label="Breadcrumb">
-	<ol role="list" class="flex overflow-hidden text-gray-700 border border-gray-200 rounded-lg">
+	<ol class="flex overflow-hidden text-gray-700 border border-gray-200 rounded-lg">
 		<li class="flex items-center">
 			<a
 				class="flex items-center h-10 px-4 transition-colors bg-gray-100 hover:text-gray-900"

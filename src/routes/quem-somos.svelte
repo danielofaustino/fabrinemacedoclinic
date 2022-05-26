@@ -10,6 +10,7 @@
 			<div class="relative z-10 lg:py-16">
 				<div class="relative h-64 sm:h-80 lg:h-full">
 					<iframe
+						title="Video Clinica F.Care"
 						src="https://player.vimeo.com/video/684463828?h=49164bd2b3&amp;background=1&amp;loop=1&amp;autoplay=1&amp;autopause=0&amp;app_id=58479"
 						frameborder="0"
 						allow="autoplay; fullscreen; picture-in-picture"
@@ -46,11 +47,4 @@
 </section>
 
 <style>
-	h1 {
-		color: red;
-	}
-
-	#buttonGolden {
-		color: #c69d4b;
-	}
 </style>
