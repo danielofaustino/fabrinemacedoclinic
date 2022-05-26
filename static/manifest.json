@@ -6,7 +6,8 @@
     {
       "src": "logo_fcare.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "background_color": "#c69d4b",
@@ -22,7 +23,8 @@
       "icons": [
         {
           "src": "logo_fcare.png",
-          "sizes": "192x192"
+          "sizes": "192x192",
+          "purpose": "any maskable"
         }
       ]
     },
@@ -34,7 +36,8 @@
       "icons": [
         {
           "src": "logo_fcare.png",
-          "sizes": "192x192"
+          "sizes": "192x192",
+          "purpose": "any maskable"
         }
       ]
     }
