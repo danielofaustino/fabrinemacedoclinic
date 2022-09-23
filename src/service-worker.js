@@ -42,9 +42,9 @@ async function fetchAndCache(request) {
   const cache = await caches.open(`offline${version}`);
 
   try {
-    console.log("request", request)
+
     const response = await fetch(request);
-    console.log("RESPONSE", response)
+
     cache.put(request, response.clone());
     return response;
   } catch (err) {
@@ -74,7 +74,6 @@ worker.addEventListener('fetch', (event) => {
         // if your application has other URLs with data that will never change,
         // set this variable to true for them and they will only be fetched once.
         const cachedAsset = isStaticAsset && (await caches.match(event.request));
-        console.log("ERRO ==>", event.request)
         return cachedAsset || fetchAndCache(event.request);
       })()
     );
