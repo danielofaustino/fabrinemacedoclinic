@@ -7,7 +7,7 @@
 
   onMount(async () => {
 
-    const response = await fetch("http://localhost:5010/professionals", {
+    const response = await fetch("https://fcare-clinic-server.herokuapp.com/professionals", {
       method: 'POST',
       headers: {
         "Content-type": "application/json"
@@ -62,7 +62,7 @@
   }
 
   const sendForm = async () => {
-    const response = await fetch("http://localhost:5010/quotes", {
+    const response = await fetch("https://fcare-clinic-server.herokuapp.com/quotes", {
       method: 'POST',
       body: JSON.stringify(emailPayload),
       headers: {
