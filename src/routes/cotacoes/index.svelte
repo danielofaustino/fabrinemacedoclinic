@@ -1,10 +1,24 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import SpinnerForm from './spinnerForm.svelte';
 
 	let professionals;
+
+	//form data:
 	let professional;
+	let procedures;
+	let services;
+	let quantidade;
+	let regiao;
+	let obs;
+	let name;
+	let email;
+	let telefone;
+
+	// Loading
 	let professionalLoading = true;
+	let proceduresLoading = true;
 
 	onMount(async () => {
 		const response = await fetch('https://fcare-clinic-server.herokuapp.com/professionals', {
@@ -19,48 +33,47 @@
 		console.log(professionals);
 	});
 
-	const emailPayload = {
-		professional: {
-			name: 'DRA. GRASCIELY MEDEIROS',
-			specialty: 'Harmonização Orofacial CROSP / 122802'
-		},
-		patient: {
-			name: 'Paulo Rogério Moreira',
-			telephone: '(11) 99579-4845',
-			email: 'paulo@gmail.com'
-		},
-		procedures: [
-			{
-				id: '632ca0d3966dc140a8521cce',
-				name: 'Botox Facial com retoque',
-				location: 'Facial',
-				value: 'R$: 1.200,00'
-			},
-			{
-				id: '632ca0d3966dc140a8521cce',
-				name: 'Botox Facial com retoque',
-				location: 'Facial',
-				value: 'R$: 1.200,00'
-			},
-			{
-				id: '632ca0d3966dc140a8521cce',
-				name: 'Botox Facial com retoque',
-				location: 'Facial',
-				value: 'R$: 1.200,00'
-			}
-		],
-		subtotal: {
-			totalValue: 'R$ 10.200,00',
-			x12: 'R$ 850,00',
-			x1: 'R$ 9.690,00'
-		},
-		proposal: {
-			data: '23/09/2022',
-			expiration: '7 Dias'
-		}
-	};
-
 	const sendForm = async () => {
+		const emailPayload = {
+			professional: {
+				name: professional.name,
+				specialty: professional.specialty,
+			},
+			patient: {
+				name: name,
+				telephone: telefone,
+				email: email
+			},
+			procedures: [
+				{
+					id: '632ca0d3966dc140a8521cce',
+					name: 'Botox Facial com retoque',
+					location: 'Facial',
+					value: 'R$: 1.200,00'
+				},
+				{
+					id: '632ca0d3966dc140a8521cce',
+					name: 'Botox Facial com retoque',
+					location: 'Facial',
+					value: 'R$: 1.200,00'
+				},
+				{
+					id: '632ca0d3966dc140a8521cce',
+					name: 'Botox Facial com retoque',
+					location: 'Facial',
+					value: 'R$: 1.200,00'
+				}
+			],
+			subtotal: {
+				totalValue: 'R$ 10.200,00',
+				x12: 'R$ 850,00',
+				x1: 'R$ 9.690,00'
+			},
+			proposal: {
+				data: '23/09/2022',
+				expiration: '7 Dias'
+			}
+		};
 		const response = await fetch('https://fcare-clinic-server.herokuapp.com/quotes', {
 			method: 'POST',
 			body: JSON.stringify(emailPayload),
@@ -77,18 +90,21 @@
 	};
 
 	const getProcedures = async () => {
+		proceduresLoading = true;
 		const response = await fetch(
 			'https://fcare-clinic-server.herokuapp.com/professionals/procedures',
 			{
-				method: 'POST,',
-				body: JSON.stringify({ professional: professional }),
+				method: 'POST',
+				body: JSON.stringify({ professionalId: professional.id }),
 				headers: {
 					'Content-type': 'application/json'
 				}
 			}
 		);
-		let procedures = await response.json();
+		procedures = await response.json();
+
 		console.log('PROCEDURES', procedures);
+		proceduresLoading = false;
 	};
 </script>
 
@@ -101,7 +117,7 @@
 	<div class="max-w-screen-xl px-4 py-4 mx-auto sm:px-6 lg:px-8">
 		<div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-2">
 			<div class="p-8 bg-white rounded-lg shadow-lg lg:p-12 lg:col-span-2">
-				<form action="" class="space-y-4">
+				<form class="space-y-4" on:submit|preventDefault={sendForm}>
 					<h2 class=" py-4 text-2xl font-bold text-start text-gray-600 sm:text-2xl">Cliente</h2>
 					<div class="grid grid-cols-1 gap-4 text-center sm:grid-cols-3">
 						<div>
@@ -111,6 +127,7 @@
 								placeholder="Nome:"
 								type="text"
 								id="name"
+								bind:value={name}
 							/>
 						</div>
 
@@ -121,6 +138,7 @@
 								placeholder="Endereço de Email"
 								type="email"
 								id="email"
+								bind:value={email}
 							/>
 						</div>
 
@@ -131,6 +149,7 @@
 								placeholder="Telefone"
 								type="tel"
 								id="phone"
+								bind:value={telefone}
 							/>
 						</div>
 					</div>
@@ -140,24 +159,7 @@
 					<div class="grid grid-cols-1 gap-4 text-center">
 						<div>
 							{#if professionalLoading}
-								<div class="flex justify-center">
-									<svg
-										aria-hidden="true"
-										class="mr-2 w-8 h-8 text-gray-200 animate-spin fill-yellow-800"
-										viewBox="0 0 100 101"
-										fill="none"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-											fill="currentColor"
-										/>
-										<path
-											d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-											fill="currentFill"
-										/>
-									</svg>
-								</div>
+								<SpinnerForm />
 							{:else if !professionalLoading && professionals.length > 0}
 								<select
 									bind:value={professional}
@@ -168,7 +170,7 @@
 								>
 									<option selected>Selecione a Profissional:</option>
 									{#each professionals as professional}
-										<option value={professional.name}>{professional.name}</option>
+										<option value={professional}>{professional.name}</option>
 									{/each}
 								</select>
 							{/if}
@@ -188,22 +190,27 @@
 							<tbody>
 								<tr class="bg-white border-b ">
 									<th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
-										<select
-											id="services"
-											class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700 p-2.5 "
-										>
-											<option selected>Selecione o Serviço</option>
-											<option value="US">United States</option>
-											<option value="CA">Canada</option>
-											<option value="FR">France</option>
-											<option value="DE">Germany</option>
-										</select>
+										{#if proceduresLoading}
+											<SpinnerForm />
+										{:else if !proceduresLoading && procedures.length > 0}
+											<select
+												id="services"
+												bind:value={services}
+												class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700 p-2.5 "
+											>
+												<option selected>Selecione o Serviço:</option>
+												{#each procedures as procedure}
+													<option value={procedure.id}>{procedure.name}</option>
+												{/each}
+											</select>
+										{/if}
 									</th>
 									<td class="py-4 px-6">
 										<div>
 											<input
 												type="number"
 												id="qtd"
+												bind:value={quantidade}
 												class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700  p-2.5 "
 												placeholder=""
 												required
@@ -213,6 +220,7 @@
 									<td class="py-4 px-6">
 										<select
 											id="services"
+											bind:value={regiao}
 											class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700 p-2.5 "
 										>
 											<option selected>Selecione a Região</option>
@@ -235,6 +243,7 @@
 							placeholder="Observação"
 							rows="4"
 							id="obs"
+							bind:value={obs}
 						/>
 					</div>
 
