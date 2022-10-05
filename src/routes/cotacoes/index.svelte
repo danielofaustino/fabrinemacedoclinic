@@ -1,15 +1,43 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import { validate_each_argument } from 'svelte/internal';
 	import SpinnerForm from './spinnerForm.svelte';
 
+	let cache = {
+		client: {
+			name: '',
+			email: '',
+			telephone: ''
+		},
+		professional: {
+			id: '',
+			name: '',
+			specialty: ''
+		},
+		subtotal: {
+			totalValue: 0
+		},
+		services: [] //id, name, location, value
+	};
+
+	const writeCache = (data, key, name) => {
+		console.log(data, key, name);
+		if (key === 'services') {
+			cache.services.push(data);
+		}
+		cache[key][name] = data;
+		console.log(cache);
+	};
+
+	let serviçosTr;
 	let professionals;
 
 	//form data:
 	let professional;
 	let procedures;
 	let services;
-	let quantidade;
+	let quantidade = 1;
 	let regiao;
 	let obs;
 	let name;
@@ -21,7 +49,7 @@
 	let proceduresLoading = true;
 
 	onMount(async () => {
-		const response = await fetch('https://fcare-clinic-server.herokuapp.com/professionals', {
+		const response = await fetch('http://localhost:5010/professionals', {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json'
@@ -36,34 +64,15 @@
 	const sendForm = async () => {
 		const emailPayload = {
 			professional: {
-				name: professional.name,
-				specialty: professional.specialty,
+				name: cache.professional.name,
+				specialty: cache.professional.specialty
 			},
 			patient: {
-				name: name,
-				telephone: telefone,
-				email: email
+				name: cache.client.name,
+				telephone: cache.client.telephone,
+				email: cache.client.email
 			},
-			procedures: [
-				{
-					id: '632ca0d3966dc140a8521cce',
-					name: 'Botox Facial com retoque',
-					location: 'Facial',
-					value: 'R$: 1.200,00'
-				},
-				{
-					id: '632ca0d3966dc140a8521cce',
-					name: 'Botox Facial com retoque',
-					location: 'Facial',
-					value: 'R$: 1.200,00'
-				},
-				{
-					id: '632ca0d3966dc140a8521cce',
-					name: 'Botox Facial com retoque',
-					location: 'Facial',
-					value: 'R$: 1.200,00'
-				}
-			],
+			procedures: cache.services, //id, name, location, value
 			subtotal: {
 				totalValue: 'R$ 10.200,00',
 				x12: 'R$ 850,00',
@@ -74,7 +83,7 @@
 				expiration: '7 Dias'
 			}
 		};
-		const response = await fetch('https://fcare-clinic-server.herokuapp.com/quotes', {
+		const response = await fetch('http://localhost:5010/quotes/pdf', {
 			method: 'POST',
 			body: JSON.stringify(emailPayload),
 			headers: {
@@ -91,20 +100,63 @@
 
 	const getProcedures = async () => {
 		proceduresLoading = true;
-		const response = await fetch(
-			'https://fcare-clinic-server.herokuapp.com/professionals/procedures',
-			{
-				method: 'POST',
-				body: JSON.stringify({ professionalId: professional.id }),
-				headers: {
-					'Content-type': 'application/json'
-				}
+		const response = await fetch('http://localhost:5010/professionals/procedures', {
+			method: 'POST',
+			body: JSON.stringify({ professionalId: professional }),
+			headers: {
+				'Content-type': 'application/json'
 			}
-		);
+		});
 		procedures = await response.json();
 
-		console.log('PROCEDURES', procedures);
+		console.log('professional', professional);
+		console.log('services', services);
+
+		let professionalAux = professionals.filter((prof) => prof.id == professional);
+
+		writeCache(professionalAux[0].id, 'professional', 'id');
+		writeCache(professionalAux[0].name, 'professional', 'name');
+		writeCache(professionalAux[0].email, 'professional', 'email');
+		writeCache(professionalAux[0].specialty, 'professional', 'specialty');
+
 		proceduresLoading = false;
+	};
+
+	const getServices = (procedureId) => {
+		const service = procedures.filter((proc) => proc.id == procedureId);
+
+		cache.services.push({
+			id: service[0].id,
+			name: service[0].name,
+			unit: service[0].unit,
+			qtd: 1,
+			value: service[0].value
+		});
+	};
+
+	const getQtd = (qtd, procedureId) => {
+		const service = cache.services.findIndex((serv) => serv.id == procedureId);
+		cache.services[service].qtd = qtd;
+		console.log(cache.services);
+	};
+
+	const returnValue = (procedureId) => {
+		const service = cache.services.find((serv) => serv.id == procedureId);
+		return service.value * service.qtd;
+	};
+
+	const addService = () => {
+		const tr = document.createElement('tr');
+		tr.className = 'bg-white border-b';
+
+		const th = document.createElement('th');
+		th.scope = 'row';
+		th.className = 'py-4 px-6 font-medium text-gray-900 whitespace-nowrap ';
+
+		const select = document.createElement('select');
+
+		tr.appendChild(th);
+		serviçosTr.appendChild(tr);
 	};
 </script>
 
@@ -127,7 +179,7 @@
 								placeholder="Nome:"
 								type="text"
 								id="name"
-								bind:value={name}
+								on:change={(event) => writeCache(event.target.value, 'client', 'name')}
 							/>
 						</div>
 
@@ -138,7 +190,7 @@
 								placeholder="Endereço de Email"
 								type="email"
 								id="email"
-								bind:value={email}
+								on:change={(event) => writeCache(event.target.value, 'client', 'email')}
 							/>
 						</div>
 
@@ -148,8 +200,8 @@
 								class="w-full p-3 text-sm border-gray-200 rounded-lg text-center"
 								placeholder="Telefone"
 								type="tel"
-								id="phone"
-								bind:value={telefone}
+								id="telephone"
+								on:change={(event) => writeCache(event.target.value, 'client', 'telephone')}
 							/>
 						</div>
 					</div>
@@ -170,7 +222,7 @@
 								>
 									<option selected>Selecione a Profissional:</option>
 									{#each professionals as professional}
-										<option value={professional}>{professional.name}</option>
+										<option value={professional.id}>{professional.name}</option>
 									{/each}
 								</select>
 							{/if}
@@ -188,52 +240,59 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr class="bg-white border-b ">
-									<th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
-										{#if proceduresLoading}
-											<SpinnerForm />
-										{:else if !proceduresLoading && procedures.length > 0}
-											<select
-												id="services"
-												bind:value={services}
-												class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700 p-2.5 "
-											>
-												<option selected>Selecione o Serviço:</option>
-												{#each procedures as procedure}
+								{#if !proceduresLoading && procedures.length > 0}
+									{#each procedures as procedure}
+										<tr class="bg-white border-b ">
+											<td class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+												<select
+													id="services"
+													on:change={(event) => getServices(event.target.value)}
+													class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700 p-2.5 "
+												>
+													<option selected>Selecione o Serviço:</option>
+
 													<option value={procedure.id}>{procedure.name}</option>
-												{/each}
-											</select>
-										{/if}
-									</th>
-									<td class="py-4 px-6">
-										<div>
-											<input
-												type="number"
-												id="qtd"
-												bind:value={quantidade}
-												class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700  p-2.5 "
-												placeholder=""
-												required
-											/>
-										</div></td
-									>
-									<td class="py-4 px-6">
-										<select
-											id="services"
-											bind:value={regiao}
-											class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700 p-2.5 "
-										>
-											<option selected>Selecione a Região</option>
-											<option value="US">Facial</option>
-											<option value="CA">Boca</option>
-											<option value="FR">Maxilar</option>
-											<option value="DE">Testa</option>
-										</select>
-									</td>
-									<td class="py-4 px-6"> R$ 0,00</td>
-								</tr>
+												</select>
+											</td>
+											<td class="py-4 px-6">
+												<div>
+													<input
+														type="number"
+														id="qtd"
+														on:change={(event) => {
+															getQtd(event.target.value, procedure.id);
+														}}
+														class="bg-gray-50 border text-center border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700  p-2.5 "
+														required
+													/>
+												</div></td
+											>
+											<td class="py-4 px-6">
+												<select
+													id="services"
+													bind:value={regiao}
+													class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700 p-2.5 "
+												>
+													<option selected>Selecione a Região</option>
+													<option value="Facial">Facial</option>
+													<option value="Boca">Boca</option>
+													<option value="Maxilar">Maxilar</option>
+													<option value="Testa">Testa</option>
+												</select>
+											</td>
+											<td class="py-4 px-6"> R$ 120,00</td>
+										</tr>
+									{/each}
+								{/if}
 							</tbody>
 						</table>
+						<!-- <button
+							on:click={addService}
+							type="button"
+							class="inline-flex items-center justify-center mt-3 w-full px-5 py-3 text-white bg-yellow-600 rounded-lg sm:w-auto"
+						>
+							<span class="font-medium"> + Serviços </span>
+						</button> -->
 					</div>
 
 					<div>
