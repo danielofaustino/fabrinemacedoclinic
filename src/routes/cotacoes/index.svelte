@@ -1,8 +1,9 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import { validate_each_argument } from 'svelte/internal';
 	import SpinnerForm from './spinnerForm.svelte';
+	import TableRow from './TableRow.svelte';
+	const { VITE_FCARE_SERVER_URL } = import.meta.env;
 
 	let cache = {
 		client: {
@@ -15,50 +16,33 @@
 			name: '',
 			specialty: ''
 		},
+		form: {
+			professionalsData: [],
+			professionalLoading: true,
+			serviceData: [],
+			serviceLoading: true,
+			professionalChoiced: [],
+			servicesbyProfessional: [],
+			obs: ''
+		},
 		subtotal: {
 			totalValue: 0
 		},
 		services: [] //id, name, location, value
 	};
 
-	const writeCache = (data, key, name) => {
-		console.log(data, key, name);
-		if (key === 'services') {
-			cache.services.push(data);
-		}
-		cache[key][name] = data;
-		console.log(cache);
-	};
-
-	let serviçosTr;
-	let professionals;
-
-	//form data:
-	let professional;
-	let procedures;
-	let services;
-	let quantidade = 1;
-	let regiao;
-	let obs;
-	let name;
-	let email;
-	let telefone;
-
-	// Loading
-	let professionalLoading = true;
-	let proceduresLoading = true;
 
 	onMount(async () => {
-		const response = await fetch('http://localhost:5010/professionals', {
+		const response = await fetch(`${VITE_FCARE_SERVER_URL}/professionals`, {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json'
 			}
 		});
-		professionals = await response.json();
-		professionalLoading = false;
+		cache.form.professionalsData = await response.json();
+		cache.form.professionalLoading = false;
 
-		console.log(professionals);
+		console.log(cache.form.professionalsData);
 	});
 
 	const sendForm = async () => {
@@ -83,7 +67,7 @@
 				expiration: '7 Dias'
 			}
 		};
-		const response = await fetch('http://localhost:5010/quotes/pdf', {
+		const response = await fetch(`${VITE_FCARE_SERVER_URL}/quotes/pdf`, {
 			method: 'POST',
 			body: JSON.stringify(emailPayload),
 			headers: {
@@ -98,65 +82,21 @@
 		console.log('fetch', response);
 	};
 
-	const getProcedures = async () => {
-		proceduresLoading = true;
-		const response = await fetch('http://localhost:5010/professionals/procedures', {
+	const getServices = async () => {
+		cache.form.serviceLoading = true;
+		const response = await fetch(`${VITE_FCARE_SERVER_URL}/professionals/procedures`, {
 			method: 'POST',
-			body: JSON.stringify({ professionalId: professional }),
+			body: JSON.stringify({ professionalId: cache.professionalChoiced.id }),
 			headers: {
 				'Content-type': 'application/json'
 			}
 		});
-		procedures = await response.json();
+		cache.form.servicesbyProfessional = await response.json();
 
-		console.log('professional', professional);
-		console.log('services', services);
+		console.log('professional==>', cache.professionalChoiced);
+		console.log('services', cache.form.servicesbyProfessional);
 
-		let professionalAux = professionals.filter((prof) => prof.id == professional);
-
-		writeCache(professionalAux[0].id, 'professional', 'id');
-		writeCache(professionalAux[0].name, 'professional', 'name');
-		writeCache(professionalAux[0].email, 'professional', 'email');
-		writeCache(professionalAux[0].specialty, 'professional', 'specialty');
-
-		proceduresLoading = false;
-	};
-
-	const getServices = (procedureId) => {
-		const service = procedures.filter((proc) => proc.id == procedureId);
-
-		cache.services.push({
-			id: service[0].id,
-			name: service[0].name,
-			unit: service[0].unit,
-			qtd: 1,
-			value: service[0].value
-		});
-	};
-
-	const getQtd = (qtd, procedureId) => {
-		const service = cache.services.findIndex((serv) => serv.id == procedureId);
-		cache.services[service].qtd = qtd;
-		console.log(cache.services);
-	};
-
-	const returnValue = (procedureId) => {
-		const service = cache.services.find((serv) => serv.id == procedureId);
-		return service.value * service.qtd;
-	};
-
-	const addService = () => {
-		const tr = document.createElement('tr');
-		tr.className = 'bg-white border-b';
-
-		const th = document.createElement('th');
-		th.scope = 'row';
-		th.className = 'py-4 px-6 font-medium text-gray-900 whitespace-nowrap ';
-
-		const select = document.createElement('select');
-
-		tr.appendChild(th);
-		serviçosTr.appendChild(tr);
+		cache.form.serviceLoading = false;
 	};
 </script>
 
@@ -179,7 +119,7 @@
 								placeholder="Nome:"
 								type="text"
 								id="name"
-								on:change={(event) => writeCache(event.target.value, 'client', 'name')}
+								bind:value={cache.client.name}
 							/>
 						</div>
 
@@ -190,7 +130,7 @@
 								placeholder="Endereço de Email"
 								type="email"
 								id="email"
-								on:change={(event) => writeCache(event.target.value, 'client', 'email')}
+								bind:value={cache.client.email}
 							/>
 						</div>
 
@@ -201,7 +141,7 @@
 								placeholder="Telefone"
 								type="tel"
 								id="telephone"
-								on:change={(event) => writeCache(event.target.value, 'client', 'telephone')}
+								bind:value={cache.client.telephone}
 							/>
 						</div>
 					</div>
@@ -210,19 +150,19 @@
 					</h2>
 					<div class="grid grid-cols-1 gap-4 text-center">
 						<div>
-							{#if professionalLoading}
+							{#if cache.form.professionalLoading}
 								<SpinnerForm />
-							{:else if !professionalLoading && professionals.length > 0}
+							{:else if !cache.form.professionalLoading && cache.form.professionalsData.length > 0}
 								<select
-									bind:value={professional}
-									on:change={getProcedures}
+									bind:value={cache.professionalChoiced}
+									on:change={getServices}
 									name="professional"
 									id="professional"
 									class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-600 block w-full p-2.5 "
 								>
 									<option selected>Selecione a Profissional:</option>
-									{#each professionals as professional}
-										<option value={professional.id}>{professional.name}</option>
+									{#each cache.form.professionalsData as professional}
+										<option value={professional}>{professional.name}</option>
 									{/each}
 								</select>
 							{/if}
@@ -240,59 +180,16 @@
 								</tr>
 							</thead>
 							<tbody>
-								{#if !proceduresLoading && procedures.length > 0}
-									{#each procedures as procedure}
-										<tr class="bg-white border-b ">
-											<td class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
-												<select
-													id="services"
-													on:change={(event) => getServices(event.target.value)}
-													class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700 p-2.5 "
-												>
-													<option selected>Selecione o Serviço:</option>
-
-													<option value={procedure.id}>{procedure.name}</option>
-												</select>
-											</td>
-											<td class="py-4 px-6">
-												<div>
-													<input
-														type="number"
-														id="qtd"
-														on:change={(event) => {
-															getQtd(event.target.value, procedure.id);
-														}}
-														class="bg-gray-50 border text-center border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700  p-2.5 "
-														required
-													/>
-												</div></td
-											>
-											<td class="py-4 px-6">
-												<select
-													id="services"
-													bind:value={regiao}
-													class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700 p-2.5 "
-												>
-													<option selected>Selecione a Região</option>
-													<option value="Facial">Facial</option>
-													<option value="Boca">Boca</option>
-													<option value="Maxilar">Maxilar</option>
-													<option value="Testa">Testa</option>
-												</select>
-											</td>
-											<td class="py-4 px-6"> R$ 120,00</td>
-										</tr>
-									{/each}
-								{/if}
+								<TableRow {cache} />
+								<table-row></table-row>
 							</tbody>
 						</table>
-						<!-- <button
-							on:click={addService}
+						<button
 							type="button"
 							class="inline-flex items-center justify-center mt-3 w-full px-5 py-3 text-white bg-yellow-600 rounded-lg sm:w-auto"
 						>
 							<span class="font-medium"> + Serviços </span>
-						</button> -->
+						</button>
 					</div>
 
 					<div>
@@ -302,7 +199,7 @@
 							placeholder="Observação"
 							rows="4"
 							id="obs"
-							bind:value={obs}
+							bind:value={cache.form.obs}
 						/>
 					</div>
 
