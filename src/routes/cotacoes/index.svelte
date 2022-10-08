@@ -23,6 +23,7 @@
 			serviceLoading: true,
 			professionalChoiced: [],
 			servicesbyProfessional: [],
+			servicesCart: [{ id: '', name: '', qtd: 0, region: '', value: 0 }],
 			obs: ''
 		},
 		subtotal: {
@@ -30,7 +31,6 @@
 		},
 		services: [] //id, name, location, value
 	};
-
 
 	onMount(async () => {
 		const response = await fetch(`${VITE_FCARE_SERVER_URL}/professionals`, {
@@ -98,6 +98,14 @@
 
 		cache.form.serviceLoading = false;
 	};
+
+	function handleServiceButton() {
+		cache.form.servicesCart = [
+			...cache.form.servicesCart,
+			{ id: '', name: '', qtd: 0, region: '', value: 0 }
+		];
+		console.log('handleServiceButton', cache);
+	}
 </script>
 
 <svelte:head>
@@ -170,7 +178,7 @@
 					</div>
 
 					<div class="overflow-x-auto">
-						<table class="w-full text-sm text-center text-gray-500 ">
+						<table class="w-full text-sm text-center text-gray-500 mb-4 ">
 							<thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
 								<tr>
 									<th scope="col" class="py-3 px-6"> Serviço </th>
@@ -180,12 +188,18 @@
 								</tr>
 							</thead>
 							<tbody>
-								<TableRow {cache} />
-								<table-row></table-row>
+								{#each cache.form.servicesCart as cart}
+									<TableRow
+										tableRowService={cache.form.servicesbyProfessional}
+										tableRowServiceLoading={cache.form.serviceLoading}
+										{cart}
+									/>
+								{/each}
 							</tbody>
 						</table>
 						<button
 							type="button"
+							on:click={handleServiceButton}
 							class="inline-flex items-center justify-center mt-3 w-full px-5 py-3 text-white bg-yellow-600 rounded-lg sm:w-auto"
 						>
 							<span class="font-medium"> + Serviços </span>
