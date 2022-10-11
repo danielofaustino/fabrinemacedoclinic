@@ -1,4 +1,6 @@
 <script>
+	// @ts-nocheck
+
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import SpinnerForm from './spinnerForm.svelte';
@@ -11,11 +13,6 @@
 			email: '',
 			telephone: ''
 		},
-		professional: {
-			id: '',
-			name: '',
-			specialty: ''
-		},
 		form: {
 			professionalsData: [],
 			professionalLoading: true,
@@ -24,12 +21,19 @@
 			professionalChoiced: [],
 			servicesbyProfessional: [],
 			servicesCart: [{ id: '', name: '', qtd: 0, region: '', value: 0 }],
-			obs: ''
+			obs: '',
+			subtotal: {
+				totalValue: 0,
+				x12: 0,
+				pix: 0
+			}
 		},
-		subtotal: {
-			totalValue: 0
-		},
-		services: [] //id, name, location, value
+
+		services: [],
+		proposal: {
+			data: '',
+			expiration: ''
+		} //id, name, location, value
 	};
 
 	onMount(async () => {
@@ -46,30 +50,9 @@
 	});
 
 	const sendForm = async () => {
-		const emailPayload = {
-			professional: {
-				name: cache.professional.name,
-				specialty: cache.professional.specialty
-			},
-			patient: {
-				name: cache.client.name,
-				telephone: cache.client.telephone,
-				email: cache.client.email
-			},
-			procedures: cache.services, //id, name, location, value
-			subtotal: {
-				totalValue: 'R$ 10.200,00',
-				x12: 'R$ 850,00',
-				x1: 'R$ 9.690,00'
-			},
-			proposal: {
-				data: '23/09/2022',
-				expiration: '7 Dias'
-			}
-		};
-		const response = await fetch(`${VITE_FCARE_SERVER_URL}/quotes/pdf`, {
+		const response = await fetch(`${VITE_FCARE_SERVER_URL}/quotes/ejs`, {
 			method: 'POST',
-			body: JSON.stringify(emailPayload),
+			body: JSON.stringify(cache),
 			headers: {
 				'Content-type': 'application/json'
 			}
@@ -91,6 +74,7 @@
 				'Content-type': 'application/json'
 			}
 		});
+
 		cache.form.servicesbyProfessional = await response.json();
 
 		console.log('professional==>', cache.professionalChoiced);
@@ -102,9 +86,16 @@
 	function handleServiceButton() {
 		cache.form.servicesCart = [
 			...cache.form.servicesCart,
-			{ id: '', name: '', qtd: 0, region: '', value: 0 }
+			{ id: `${cache.form.servicesCart.length}`, name: '', qtd: 0, region: '', value: 0 }
 		];
 		console.log('handleServiceButton', cache);
+	}
+
+	function handleRemoveService(cart) {
+		cache.form.servicesCart = cache.form.servicesCart.filter((service) => service.id !== cart.id);
+
+		console.log(cache.form.servicesCart);
+		console.log('cart', cart);
 	}
 </script>
 
@@ -135,7 +126,7 @@
 							<label class="sr-only" for="email">Email</label>
 							<input
 								class="w-full p-3 text-sm border-gray-200 rounded-lg text-center"
-								placeholder="Endereço de Email"
+								placeholder="Email"
 								type="email"
 								id="email"
 								bind:value={cache.client.email}
@@ -185,6 +176,7 @@
 									<th scope="col" class="py-3 px-6"> Quantidade </th>
 									<th scope="col" class="py-3 px-6"> Região </th>
 									<th scope="col" class="py-3 px-6"> Valor </th>
+									<th scope="col" class="py-3 px-6" />
 								</tr>
 							</thead>
 							<tbody>
@@ -193,6 +185,7 @@
 										tableRowService={cache.form.servicesbyProfessional}
 										tableRowServiceLoading={cache.form.serviceLoading}
 										{cart}
+										{handleRemoveService}
 									/>
 								{/each}
 							</tbody>
