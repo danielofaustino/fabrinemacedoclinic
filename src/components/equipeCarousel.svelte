@@ -9,7 +9,7 @@
 
 	const options = {
 		type: 'loop',
-		perPage: 4,
+		perPage: 5,
 		gap: 14,
 		autoScroll: {
 			speed: 2
@@ -19,10 +19,10 @@
 				perPage: 5
 			},
 			1440: {
-				perPage: 4
+				perPage: 5
 			},
 			1024: {
-				perPage: 3
+				perPage: 5
 			},
 			768: {
 				perPage: 2
