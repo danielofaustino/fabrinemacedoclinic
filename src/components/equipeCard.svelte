@@ -16,7 +16,7 @@
 		<p class=" md:mb-2 text-gray-700 text-sm text-center h-4">{professional.nome}</p>
 		<p class=" md:mb-2 text-gray-700 text-lg text-center h-4">{professional.especialidade}</p>
 	</div>
-</div> -->
+</div>  -->
 
 <div class="pb-10 bg-white border-gray-200 shadow-md z-0 min-h-0">
 	<a class="block overflow-hidden group " href={link}>
@@ -35,4 +35,30 @@
 			</p>
 		</div>
 	</a>
-</div>
+</div> 
+
+<!-- <a href={link} class="group relative block bg-black">
+	<img
+		alt="Developer"
+		src={professional.foto}
+		class="absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-50"
+	/>
+
+	<div class="relative p-8">
+		<div class="mt-64">
+			<div
+				class="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"
+			>
+				<p class="text-sm text-white">
+					Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis perferendis hic asperiores
+					quibusdam quidem voluptates doloremque reiciendis nostrum harum. Repudiandae?
+				</p>
+			</div>
+		</div>
+
+		<p class="text-sm font-medium uppercase tracking-widest text-yellow-500">
+			{professional.especialidade}
+		</p>
+		<p class="text-2xl font-bold text-white">{professional.nome}</p>
+	</div>
+</a> -->
