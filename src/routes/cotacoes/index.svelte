@@ -145,7 +145,7 @@
 						</div>
 					</div>
 					<h2 class=" py-4 text-2xl font-bold text-start text-gray-600 sm:text-2xl">
-						Profissional
+						Especialista
 					</h2>
 					<div class="grid grid-cols-1 gap-4 text-center">
 						<div>

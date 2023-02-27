@@ -7,6 +7,6 @@
 		<img class="rounded-t-lg h-[350px] sm:h-[400px] w-full object-cover" src={post.media_url} alt={post.id} />
 	</a>
 	<div class="md:py-8 px-2 py-10">
-		<p class=" md:mb-2 text-gray-700 text-sm text-justify h-24">{post.caption}</p>
+		<p class=" md:mb-2 text-gray-600 text-sm text-justify h-24"><a href={post.permalink}>{post.caption}</a></p>
 	</div>
 </div>

@@ -22,7 +22,7 @@ const fetchInstagramPosts = async () => {
 				permalink:post.permalink,
 				media_url:post.media_url,
 				id:post.id,
-				caption: `${post.caption.substr(0,150)} ...`
+				caption: `${post.caption.substr(0,100)}... mais. `
 			}
 		})
 		posts.set(postsModified);
