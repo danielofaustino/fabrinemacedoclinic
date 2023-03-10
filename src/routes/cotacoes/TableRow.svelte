@@ -1,18 +1,58 @@
 <script>
 	// @ts-nocheck
+	const { VITE_FCARE_SERVER_URL } = import.meta.env;
+	import SpinnerForm from './spinnerForm.svelte';
 
-	export let tableRowService, tableRowServiceLoading, cart, handleRemoveService;
+	export let cart, handleRemoveService, professionals, professionalsLoading;
+
+	cart.serviceLoading = true;
+	cart.professionalChoiced = [];
+
+	let services = '';
 
 	function handleServiceChosen(value) {
 		cart.id = value;
-		cart.name = tableRowService.filter((x) => x.id == value)[0].name;
-		cart.value = tableRowService.filter((x) => x.id == value)[0].value;
+		cart.name = services.filter((x) => x.id == value)[0].name;
+		cart.value = services.filter((x) => x.id == value)[0].value;
 
-		console.log('cart', cart);
+		//console.log('cart', cart);
 	}
+
+	const getServices = async () => {
+		cart.serviceLoading = true;
+		const response = await fetch(`${VITE_FCARE_SERVER_URL}/professionals/procedures`, {
+			method: 'POST',
+			body: JSON.stringify({ professionalId: cart.professionalChoiced.id }),
+			headers: {
+				'Content-type': 'application/json'
+			}
+		});
+
+		services = await response.json();
+
+		cart.serviceLoading = false;
+	};
 </script>
 
 <tr class="bg-white border-b ">
+	<td class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+		{#if professionalsLoading}
+			<SpinnerForm />
+		{:else if !professionalsLoading && professionals.length > 0}
+			<select
+				bind:value={cart.professionalChoiced}
+				on:change={getServices}
+				name="professional"
+				id="professional"
+				class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-600 block w-full p-2.5 "
+			>
+				<option selected>Selecione a Profissional:</option>
+				{#each professionals as professional}
+					<option value={professional}>{professional.name}</option>
+				{/each}
+			</select>
+		{/if}
+	</td>
 	<td class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
 		<select
 			id="services"
@@ -20,8 +60,8 @@
 			class="bg-gray-50 border text-center border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700 p-2.5 "
 		>
 			<option selected>Selecione o Serviço:</option>
-			{#if !tableRowServiceLoading && tableRowService.length > 0}
-				{#each tableRowService as service}
+			{#if !cart.serviceLoading && services.length > 0}
+				{#each services as service}
 					<option class="text-start" value={service.id}>{service.name}</option>
 				{/each}
 			{/if}
@@ -46,7 +86,7 @@
 			id="local"
 			type="text"
 			on:change={(event) => {
-				cart.region = event.target.value;
+				cart.region = event.target.value ? event.target.value : '';
 			}}
 			placeholder="Região de Aplicação"
 			class="bg-gray-50 border text-center border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700 p-2.5 "

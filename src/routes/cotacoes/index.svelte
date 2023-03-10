@@ -2,24 +2,27 @@
 	// @ts-nocheck
 
 	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
-	import SpinnerForm from './spinnerForm.svelte';
 	import TableRow from './TableRow.svelte';
+	import { onMount } from 'svelte';
 	const { VITE_FCARE_SERVER_URL } = import.meta.env;
 
 	let cache = {
+		professional: {
+			data: '',
+			loading: true
+		},
+		professionalChoiced: {
+			name: '',
+			specialty: ''
+		},
 		client: {
 			name: '',
 			email: '',
 			telephone: ''
 		},
 		form: {
-			professionalsData: [],
-			professionalLoading: true,
 			serviceData: [],
-			serviceLoading: true,
 			professionalChoiced: [],
-			servicesbyProfessional: [],
 			servicesCart: [{ id: '', name: '', qtd: 0, region: '', value: 0 }],
 			obs: '',
 			subtotal: {
@@ -43,10 +46,8 @@
 				'Content-type': 'application/json'
 			}
 		});
-		cache.form.professionalsData = await response.json();
-		cache.form.professionalLoading = false;
-
-		console.log(cache.form.professionalsData);
+		cache.professional.data = await response.json();
+		cache.professional.loading = false;
 	});
 
 	const sendForm = async () => {
@@ -62,25 +63,7 @@
 			goto(response.url);
 		}
 
-		console.log('fetch', response);
-	};
-
-	const getServices = async () => {
-		cache.form.serviceLoading = true;
-		const response = await fetch(`${VITE_FCARE_SERVER_URL}/professionals/procedures`, {
-			method: 'POST',
-			body: JSON.stringify({ professionalId: cache.professionalChoiced.id }),
-			headers: {
-				'Content-type': 'application/json'
-			}
-		});
-
-		cache.form.servicesbyProfessional = await response.json();
-
-		console.log('professional==>', cache.professionalChoiced);
-		console.log('services', cache.form.servicesbyProfessional);
-
-		cache.form.serviceLoading = false;
+		//console.log('fetch', response);
 	};
 
 	function handleServiceButton() {
@@ -88,14 +71,14 @@
 			...cache.form.servicesCart,
 			{ id: `${cache.form.servicesCart.length}`, name: '', qtd: 0, region: '', value: 0 }
 		];
-		console.log('handleServiceButton', cache);
+		//console.log('handleServiceButton', cache.form.servicesCart);
 	}
 
 	function handleRemoveService(cart) {
 		cache.form.servicesCart = cache.form.servicesCart.filter((service) => service.id !== cart.id);
 
-		console.log(cache.form.servicesCart);
-		console.log('cart', cart);
+		//console.log(cache.form.servicesCart);
+		//console.log('cart', cart);
 	}
 </script>
 
@@ -105,7 +88,7 @@
 
 <section>
 	<h1 class=" py-4 text-2xl font-bold text-center text-yellow-600 sm:text-3xl">Cotações</h1>
-	<div class="max-w-screen-xl px-4 py-4 mx-auto sm:px-6 lg:px-8">
+	<div class=" px-4 py-4 mx-auto sm:px-6 lg:px-8">
 		<div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-2">
 			<div class="p-8 bg-white rounded-lg shadow-lg lg:p-12 lg:col-span-2">
 				<form class="space-y-4" on:submit|preventDefault={sendForm}>
@@ -144,34 +127,14 @@
 							/>
 						</div>
 					</div>
-					<h2 class=" py-4 text-2xl font-bold text-start text-gray-600 sm:text-2xl">
-						Especialista
-					</h2>
-					<div class="grid grid-cols-1 gap-4 text-center">
-						<div>
-							{#if cache.form.professionalLoading}
-								<SpinnerForm />
-							{:else if !cache.form.professionalLoading && cache.form.professionalsData.length > 0}
-								<select
-									bind:value={cache.professionalChoiced}
-									on:change={getServices}
-									name="professional"
-									id="professional"
-									class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-600 block w-full p-2.5 "
-								>
-									<option selected>Selecione a Profissional:</option>
-									{#each cache.form.professionalsData as professional}
-										<option value={professional}>{professional.name}</option>
-									{/each}
-								</select>
-							{/if}
-						</div>
-					</div>
+					<h2 class=" py-4 text-2xl font-bold text-start text-gray-600 sm:text-2xl">Serviços</h2>
+					<div class="grid grid-cols-1 gap-4 text-center" />
 
 					<div class="overflow-x-auto">
 						<table class="w-full text-sm text-center text-gray-500 mb-4 ">
 							<thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
 								<tr>
+									<th scope="col" class="py-3 px-6"> Profissional </th>
 									<th scope="col" class="py-3 px-6"> Serviço </th>
 									<th scope="col" class="py-3 px-6"> Quantidade </th>
 									<th scope="col" class="py-3 px-6"> Região </th>
@@ -182,8 +145,8 @@
 							<tbody>
 								{#each cache.form.servicesCart as cart}
 									<TableRow
-										tableRowService={cache.form.servicesbyProfessional}
-										tableRowServiceLoading={cache.form.serviceLoading}
+										professionals={cache.professional.data}
+										professionalsLoading={cache.professional.loading}
 										{cart}
 										{handleRemoveService}
 									/>
