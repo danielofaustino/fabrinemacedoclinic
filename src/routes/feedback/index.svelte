@@ -83,7 +83,7 @@
 		>
 			<!-- <p class="text-center text-lg font-medium">Sign in to your account</p> -->
 
-			<div>
+			<!-- <div>
 				<label for="email" class="sr-only">Email</label>
 
 				<div class="relative">
@@ -111,7 +111,7 @@
 						</svg>
 					</span>
 				</div>
-			</div>
+			</div> -->
 
 			<div>
 				<label for="password" class="sr-only">Nome</label>
@@ -137,7 +137,7 @@
 							class="  text-sm shadow-sm block w-full bg-gray-100 border border-gray-300 p-4 pr-12 rounded-md leading-tight focus:outline-none focus:bg-white focus:border-gray-400"
 						>
 							<option selected value={formData.choiced} class="text-gray-400"
-								>Selecione a Profissional :</option
+								>Selecione a Profissional: </option
 							>
 							{#each professionals.data as professional}
 								<option class="text-gray-600" value={professional.name}>{professional.name}</option>
