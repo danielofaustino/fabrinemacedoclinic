@@ -41,7 +41,7 @@
 
 	onMount(async () => {
 		const response = await fetch(`${VITE_FCARE_SERVER_URL}/professionals`, {
-			method: 'POST',
+			method: 'GET',
 			headers: {
 				'Content-type': 'application/json'
 			}

@@ -6,6 +6,7 @@ export const links = [
   { title: 'Equipe', link: '/equipe' },
   { title: 'Cursos', link: '/cursos' },
   { title: 'Quem Somos', link: '/quem-somos' },
+  { title: 'Feedback', link: '/feedback' },
   { title: 'Política de Privacidade', link: '/politica-de-privacidade' },
 
 ]
