@@ -36,6 +36,8 @@
 	];
 
 	const kiwifyUrl = 'https://pay.kiwify.com.br/EVhUNBr';
+
+	const productValue = 'R$ 19,90';
 </script>
 
 <svelte:head>
@@ -82,7 +84,7 @@
 							class="inline-block rounded border border-white bg-white px-12 py-3 text-sm font-medium text-grey-500 transition hover:bg-transparent hover:text-white focus:outline-none focus:ring focus:ring-yellow-400"
 							target="_blank"
 						>
-							Compre agora por somente R$ 29,90 😲
+							Compre agora por somente {productValue} 😲
 						</a>
 					</div>
 				</div>
