@@ -8,32 +8,14 @@
 	let page = 'equipeCarousel';
 
 	const options = {
-		type: 'loop',
-		perPage: 5,
-		gap: 5,
-		autoScroll: {
-			speed: 2
-		},
-		breakpoints: {
-			2560: {
-				perPage: 5
-			},
-			1440: {
-				perPage: 5
-			},
-			1024: {
-				perPage: 3
-			},
-			768: {
-				perPage: 2
-			},
-			640: {
-				perPage: 1
-			},
-			425: {
-				perPage: 1
-			}
-		}
+		type: 'carousel',
+		perPage: 1,
+		gap: 10,
+		pagination: false,
+		focus: 'center',
+		autoplay: false,
+		drag: false,
+		arrows: false
 	};
 </script>
 
