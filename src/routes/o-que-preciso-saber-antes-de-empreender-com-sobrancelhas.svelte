@@ -1,4 +1,39 @@
+<svelte:head>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-3QH090XP4F">
+	</script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+
+		gtag('js', new Date());
+		gtag('config', 'G-3QH090XP4F');
+	</script>
+
+<title>Ebook - O Que Preciso Saber Antes De Empreender Com Sobrancelhas</title>
+<meta name="robots" content="index, follow" />
+<meta name="googlebot" content="empreender, mercado da beleza, sobrancelhas" />
+<link rel="canonical" href="https://www.clinicafcare.com.br/" />
+
+</svelte:head>
+
+
+
 <script>
+
+
+import { page } from '$app/stores';
+
+$: {
+	if (typeof gtag !== 'undefined') {
+		gtag('config', 'G-3QH090XP4F', {
+			page_title: document.title,
+			page_path: $page.url.href
+		});
+	}
+}
 	import SvelteSeo from 'svelte-seo';
 
 	const perguntas = [
@@ -40,12 +75,7 @@
 	const productValue = 'R$ 19,90';
 </script>
 
-<svelte:head>
-	<title>Ebook - O Que Preciso Saber Antes De Empreender Com Sobrancelhas</title>
-	<meta name="robots" content="index, follow" />
-	<meta name="googlebot" content="empreender, mercado da beleza, sobrancelhas" />
-	<link rel="canonical" href="https://www.clinicafcare.com.br/" />
-</svelte:head>
+
 
 <SvelteSeo
 	openGraph={{
