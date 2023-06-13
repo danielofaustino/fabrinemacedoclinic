@@ -19,7 +19,7 @@
 </div>  -->
 
 <div class="pb-10 bg-white border-gray-200 shadow-md z-0 min-h-0">
-	<a class="block overflow-hidden group " href={'#'}>
+	<a class="block overflow-hidden group " href={link}>
 		<img
 			class=" group-hover:scale-105 transition-transform duration-500 object-cover w-full h-[450px] sm:h-[350px]"
 			src={professional.foto}

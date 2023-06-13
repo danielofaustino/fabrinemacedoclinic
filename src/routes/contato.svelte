@@ -1,6 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { equipeData } from '../../stores/equipe.mjs';
+	import { equipeData } from '../stores/equipe.mjs';
 	let nome, procedimento;
 
 	const sendToWhatsApp = () => {
