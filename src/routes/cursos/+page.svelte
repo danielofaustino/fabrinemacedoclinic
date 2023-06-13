@@ -1,5 +1,5 @@
 <script>
-	import CursoCarousel from '../components/cursoCarousel.svelte';
+	import CursoCarousel from '../../components/cursoCarousel.svelte';
 </script>
 
 <svelte:head>

@@ -7,15 +7,34 @@
 		content="Clínica de Estética, que oferece serviços de forma responsável e qualificada. Cursos de Micropigmentação de Sobrancelhas, Extensão de Cílios, Design de Sobrancelhas e Revitalização Labial. Procedimentos: Extensão de Cílios, Epilação Egípcia, Estética, Peeling, Podologia, Despigmentação a Laser, Design de Sobrancelhas, Revitalização Labial, Micropigmentação, Extensão de Cílios, Botox, Preenchimento Labial.">
 	<link rel="icon" href="%svelte.assets%/favicon.ico" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<!-- <link rel="manifest" crossorigin="use-credentials" href="manifest.json"> -->
+	<!-- <link rel="manifest" crossorigin="use-credentials" href="manifest.json">		 -->
 	<meta name="theme-color" content="#c69d4b" />
 	<link rel="apple-touch-icon" href="logo_fcare.png">
-	%svelte.head%
+	%sveltekit.head%
 
+	<!-- Meta Pixel Code -->
+	<script>
+		!function (f, b, e, v, n, t, s) {
+			if (f.fbq) return; n = f.fbq = function () {
+				n.callMethod ?
+				n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+			};
+			if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+			n.queue = []; t = b.createElement(e); t.async = !0;
+			t.src = v; s = b.getElementsByTagName(e)[0];
+			s.parentNode.insertBefore(t, s)
+		}(window, document, 'script',
+			'https://connect.facebook.net/en_US/fbevents.js');
+		fbq('init', '1605057826682236');
+		fbq('track', 'PageView');
+	</script>
+	<noscript><img height="1" width="1" style="display:none"
+			src="https://www.facebook.com/tr?id=1605057826682236&ev=PageView&noscript=1" /></noscript>
+	<!-- End Meta Pixel Code -->
 </head>
 
-<body>
-	<div>%svelte.body%</div>
+<body data-sveltekit-preload-data="hover">
+	<div style="display: contents">%sveltekit.body%</div>
 </body>
 
 </html>

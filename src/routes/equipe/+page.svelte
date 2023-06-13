@@ -1,5 +1,5 @@
 <script>
-	import EquipeCarousel from '../components/equipeCarousel.svelte';
+	import EquipeCarousel from '../../components/equipeCarousel.svelte';
 </script>
 
 <svelte:head>
