@@ -31,7 +31,7 @@
     {
       "name": "Cursos?",
       "short_name": "Cursos",
-      "description": "Veja Nossos Crusos",
+      "description": "Veja Nossos Cursos",
       "url": "/cursos?source=pwa",
       "icons": [
         {
