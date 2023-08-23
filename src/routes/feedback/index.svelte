@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 
 	import Alert from '../../components/alert.svelte';
-	import SpinnerForm from '../cotacoes/spinnerForm.svelte';
+	import SpinnerForm from '../orcamento/spinnerForm.svelte';
 	import StarRating from 'svelte-star-rating';
 
 	let formData = {

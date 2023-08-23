@@ -13,7 +13,7 @@
 	function handleServiceChosen(value) {
 		cart.id = value;
 		cart.name = services.filter((x) => x.id == value)[0].name;
-		cart.value = services.filter((x) => x.id == value)[0].value;
+		cart.value = services.filter((x) => x.id == value)[0].value / 100;
 
 		//console.log('cart', cart);
 	}
@@ -35,7 +35,8 @@
 </script>
 
 <tr class="bg-white border-b ">
-	<td class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+	<!-- PROFISSIONAL -->
+	<td class="p-4 font-medium text-gray-900 whitespace-nowrap ">
 		{#if professionalsLoading}
 			<SpinnerForm />
 		{:else if !professionalsLoading && professionals.length > 0}
@@ -53,7 +54,8 @@
 			</select>
 		{/if}
 	</td>
-	<td class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+	<!-- SERVIÇO -->
+	<td class="p-4 font-medium text-gray-900 whitespace-nowrap ">
 		<select
 			id="services"
 			on:change={(event) => handleServiceChosen(event.target.value)}
@@ -67,21 +69,22 @@
 			{/if}
 		</select>
 	</td>
-	<td class="py-4 px-6">
-		<div>
-			<input
-				type="number"
-				id="qtd"
-				value="0"
-				on:change={(event) => {
-					cart.qtd = event.target.value;
-				}}
-				class="bg-gray-50 border text-center border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700  p-2.5 "
-				required
-			/>
-		</div></td
-	>
-	<td class="py-4 px-6">
+	<!-- QUANTIDADE -->
+	<td class="">
+		<input
+			type="number"
+			id="qtd"
+			value="1"
+			on:change={(event) => {
+				let value = cart.value;
+				cart.value = value * event.target.value;
+			}}
+			class="bg-gray-50 border text-center border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700  p-2.5"
+			required
+		/>
+	</td>
+	<!-- REGIÃO -->
+	<td class="p-4">
 		<input
 			id="local"
 			type="text"
@@ -92,19 +95,25 @@
 			class="bg-gray-50 border text-center border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700 p-2.5 "
 		/>
 	</td>
-	<td class="py-4 px-6">
+
+	<!-- VALOR -->
+	<td class="p-4">
 		<input
 			type="text"
 			id="value"
-			value={cart && cart.value && cart.qtd ? `R$ ${(cart.value * cart.qtd) / 100}.00` : 'R$ 0.00'}
+			value={`R$ ${cart.value}.00`}
 			on:change={(event) => {
-				cart.value = event.target.value;
+				let aux = event.target.value.replace('R$', '');
+				let newNumber = aux.replace('.00', '');
+				cart.value = parseInt(newNumber);
 			}}
 			class="bg-gray-50 border text-center border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700  p-2.5 "
 			required
 		/>
 	</td>
-	<td class="py-4 px-6">
+
+	<!-- EXCLUIR -->
+	<td class="p-4">
 		<button type="button" on:click={handleRemoveService(cart)}>
 			<svg
 				class="w-6 h-6"

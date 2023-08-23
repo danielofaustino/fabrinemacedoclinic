@@ -83,43 +83,44 @@
 </script>
 
 <svelte:head>
-	<title>Cotações</title>
+	<title>ORÇAMENTO</title>
 </svelte:head>
 
 <section>
-	<h1 class=" py-4 text-2xl font-bold text-center text-yellow-600 sm:text-3xl">Cotações</h1>
+	<h1 class=" py-4 text-2xl font-bold text-center text-yellow-600 sm:text-3xl">ORÇAMENTO</h1>
 	<div class=" px-4 py-4 mx-auto sm:px-6 lg:px-8">
 		<div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-2">
 			<div class="p-8 bg-white rounded-lg shadow-lg lg:p-12 lg:col-span-2">
 				<form class="space-y-4" on:submit|preventDefault={sendForm}>
 					<h2 class=" py-4 text-2xl font-bold text-start text-gray-600 sm:text-2xl">Cliente</h2>
 					<div class="grid grid-cols-1 gap-4 text-center sm:grid-cols-3">
+						<!-- NOME -->
 						<div>
 							<label class="sr-only" for="name">Nome:</label>
 							<input
-								class="w-full p-3 text-sm border-gray-200 rounded-lg text-center"
+								class="bg-gray-50 border text-center border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700 w-full p-3"
 								placeholder="Nome:"
 								type="text"
 								id="name"
 								bind:value={cache.client.name}
 							/>
 						</div>
-
+						<!-- EMAIL -->
 						<div>
 							<label class="sr-only" for="email">Email</label>
 							<input
-								class="w-full p-3 text-sm border-gray-200 rounded-lg text-center"
+								class="bg-gray-50 border text-center border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700 w-full p-3"
 								placeholder="Email"
 								type="email"
 								id="email"
 								bind:value={cache.client.email}
 							/>
 						</div>
-
+						<!-- TELEFONE -->
 						<div>
 							<label class="sr-only" for="phone">Telefone</label>
 							<input
-								class="w-full p-3 text-sm border-gray-200 rounded-lg text-center"
+								class="bg-gray-50 border text-center border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-700 focus:border-yellow-700 w-full p-3"
 								placeholder="Telefone"
 								type="tel"
 								id="telephone"
@@ -127,6 +128,9 @@
 							/>
 						</div>
 					</div>
+
+					<!-- SERVIÇOS -->
+
 					<h2 class=" py-4 text-2xl font-bold text-start text-gray-600 sm:text-2xl">Serviços</h2>
 					<div class="grid grid-cols-1 gap-4 text-center" />
 
