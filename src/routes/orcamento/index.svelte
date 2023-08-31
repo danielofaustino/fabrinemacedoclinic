@@ -6,11 +6,12 @@
 	import { onMount } from 'svelte';
 	const { VITE_FCARE_SERVER_URL } = import.meta.env;
 
+	let professional = {
+		data: '',
+		loading: true
+	};
+
 	let cache = {
-		professional: {
-			data: '',
-			loading: true
-		},
 		professionalChoiced: {
 			name: '',
 			specialty: ''
@@ -21,22 +22,9 @@
 			telephone: ''
 		},
 		form: {
-			serviceData: [],
-			professionalChoiced: [],
 			servicesCart: [{ id: '', name: '', qtd: 0, region: '', value: 0 }],
-			obs: '',
-			subtotal: {
-				totalValue: 0,
-				x12: 0,
-				pix: 0
-			}
-		},
-
-		services: [],
-		proposal: {
-			data: '',
-			expiration: ''
-		} //id, name, location, value
+			obs: ''
+		}
 	};
 
 	onMount(async () => {
@@ -46,8 +34,8 @@
 				'Content-type': 'application/json'
 			}
 		});
-		cache.professional.data = await response.json();
-		cache.professional.loading = false;
+		professional.data = await response.json();
+		professional.loading = false;
 	});
 
 	const sendForm = async () => {
@@ -62,8 +50,6 @@
 		if (response.redirected) {
 			goto(response.url);
 		}
-
-		//console.log('fetch', response);
 	};
 
 	function handleServiceButton() {
@@ -71,14 +57,10 @@
 			...cache.form.servicesCart,
 			{ id: `${cache.form.servicesCart.length}`, name: '', qtd: 0, region: '', value: 0 }
 		];
-		//console.log('handleServiceButton', cache.form.servicesCart);
 	}
 
 	function handleRemoveService(cart) {
 		cache.form.servicesCart = cache.form.servicesCart.filter((service) => service.id !== cart.id);
-
-		//console.log(cache.form.servicesCart);
-		//console.log('cart', cart);
 	}
 </script>
 
@@ -149,8 +131,8 @@
 							<tbody>
 								{#each cache.form.servicesCart as cart}
 									<TableRow
-										professionals={cache.professional.data}
-										professionalsLoading={cache.professional.loading}
+										professionals={professional.data}
+										professionalsLoading={professional.loading}
 										{cart}
 										{handleRemoveService}
 									/>
